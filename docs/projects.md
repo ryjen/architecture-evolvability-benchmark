@@ -65,3 +65,15 @@ Source branch 3.2.7 resolved through GitHub to [6a4a0a65a3408ee8f62597b51d1b3aac
 Promising medium candidate with direct workflow evidence of substantial orchestration, responsibility concentration and reciprocal dependencies, despite existing modularity. Still unqualified. Initial source observations are not full structural measurements; no CBO, LCOM4, SCC, propagation-cost, production LOC or runtime regression result exists.
 
 Next required evidence: complete immutable source inventory (including notices), reproducible metric definitions and tool selection, structural measurements at class/module/workflow scope, isolated dependency resolution and build/test receipts, and independently reviewed baseline business contracts. No local execution or real provider access performed.
+
+## Additional immutable candidate pins (2026-11-24)
+
+These are source-inspection snapshots of the current default branches, not accepted releases or S0 baselines. Prefer stable releases if build qualification indicates these snapshots are unsuitable.
+
+| Candidate | Revision | Root license evidence |
+| --- | --- | --- |
+| JPetStore | [b7433c22c86d634e51646a4fd527fe87694aa6ab](https://github.com/mybatis/jpetstore-6/commit/b7433c22c86d634e51646a4fd527fe87694aa6ab) | [LICENSE](https://github.com/mybatis/jpetstore-6/blob/b7433c22c86d634e51646a4fd527fe87694aa6ab/LICENSE) Apache-2.0; [NOTICE](https://github.com/mybatis/jpetstore-6/blob/b7433c22c86d634e51646a4fd527fe87694aa6ab/NOTICE) present, retain applicable attributions. |
+| Fineract | [431eca60184257c97b3427446eed7d152a48cf53](https://github.com/apache/fineract/commit/431eca60184257c97b3427446eed7d152a48cf53) | [settings.gradle](https://github.com/apache/fineract/blob/431eca60184257c97b3427446eed7d152a48cf53/settings.gradle) contains ASF Apache-2.0 header; standard root LICENSE/NOTICE filenames returned 404. Complete license and notice inventory unresolved. |
+| Kill Bill | [8881b6617a7ef2d0bd5e1dd354d37405eb1362d6](https://github.com/killbill/killbill/commit/8881b6617a7ef2d0bd5e1dd354d37405eb1362d6) | [LICENSE](https://github.com/killbill/killbill/blob/8881b6617a7ef2d0bd5e1dd354d37405eb1362d6/LICENSE) Apache-2.0; root NOTICE lookup returned 404; remaining inventory unresolved. |
+
+A missing path is not evidence that the tree has no attribution requirements. None of the subjects is cleared for redistribution or formally admitted.
