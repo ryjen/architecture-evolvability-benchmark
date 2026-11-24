@@ -24,3 +24,16 @@ LOC ranges are provisional targets, not measurements. Include non-generated prod
 Thresholds and sampling rules must be frozen before selecting candidates for confirmatory comparison. Select based on evidence, not whether a candidate is expected to favor C. If a project is already strongly modular, consider it a separate comparison rather than deliberately damaging it.
 
 Pilot qualification prioritizes Shopizer; project selection remains unresolved until #3 delivers evidence.
+
+## Initial source screening (2026-11-24)
+
+This is public-source desk screening, not source qualification. No builds, LOC counts, coupling/cohesion analyses, or immutable revision verification have been completed.
+
+| Candidate | Observed evidence | Qualification implication |
+| --- | --- | --- |
+| JPetStore | [Official 6.4.0 service API/source](https://mybatis.org/jpetstore-6/xref/org/mybatis/jpetstore/service/OrderService.html) shows constructor-injected mapper interfaces and order/inventory persistence coordination. [Project guide](https://mybatis.org/jpetstore-6/) explains transactional rollback. | Useful for transaction and dependency changes, but third-party breadth and low cohesion are unproven. Do not add artificial coupling. Consider another small candidate if it fails admission. |
+| Shopizer | [3.2.7 module configuration](https://github.com/shopizer-ecommerce/shopizer/blob/3.2.7/sm-core/src/main/resources/spring/shopizer-core-modules.xml) defines existing payment and shipping module contracts, provider mappings and mail integration. [Version README](https://github.com/shopizer-ecommerce/shopizer/blob/3.2.7/README.md) describes Java and setup. | Strong integration breadth; existing ports and composition reduce the treatment contrast. Inspect order/pricing workflow dependencies and select only after measuring actual cohesion/coupling. 3.2.7 is a candidate ref, not an immutable SHA. |
+| Fineract | [Gradle settings](https://github.com/apache/fineract/blob/develop/settings.gradle) identify accounting and loan-related modules. [Repository](https://github.com/apache/fineract) describes the financial platform. | Strong financial invariants and substantial modularity; define a bounded workflow scope before measurement. Integration count, size and architectural treatment gap remain unknown. |
+| Kill Bill | [Project FAQ](https://killbill.io/faqs) describes event-based module coordination; [payment guide](https://docs.killbill.io/latest/userguide_payment) describes provider plugin failure recovery. | Useful alternate or high-modularity comparison. Existing extensibility could make it unsuitable for the intended high-coupling cohort. |
+
+Next: resolve immutable source identities and notices; inspect representative workflows; measure structural properties with a documented tool and sampling rule; qualify a repeatable isolated local build. No candidate is admitted by this screening.
