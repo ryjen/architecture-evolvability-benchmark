@@ -6,9 +6,11 @@ The primary outcome is engineering cost to deliver independently accepted busine
 
 Acceptance requires new requirements plus regression, contract, security and applicable performance gates, with exact candidate evidence. Set thresholds before trials. Record status: accepted, failed, timed_out, infrastructure_error, invalid_protocol, or not_started. Keep every scheduled trial; infrastructure failures require a preregistered disposition, not silent deletion or retries. Candidate failure is distinct from harness failure.
 
+Pilot primary resource axis: wall-clock seconds from task release to independent acceptance, including required review and rework. Use a common wall-time ceiling and separate token/compute ceilings; record each actual value. If a secondary ceiling ends a trial before wall-time expiry, classify it as unsuccessful and apply the same predeclared wall-time penalty. Freeze numeric caps and review timing rules before starting; until then no trials are authorized by the protocol.
+
 Primary joint outcomes:
 1. Acceptance rate by fixed cap (accepted / eligible scheduled trials, with all statuses and exclusions separately reported).
-2. Capped cost-to-acceptance: for an accepted trial, measured cost; for an eligible unsuccessful trial, predeclared cap in the relevant cost unit. This is a bounded penalty/estimand, not actual expenditure. Separately report actual consumed resources and sensitivity to penalty/cap. Time-to-event analysis may treat unresolved attempts as censored when assumptions are justified.
+2. Capped cost-to-acceptance: for an accepted trial, measured cost; for an eligible unsuccessful trial, predeclared cap in the relevant cost unit. This is a bounded penalty/estimand, not actual expenditure. Separately report actual consumed resources and sensitivity to penalty/cap. Report all scheduled trials by arm alongside eligible-trial estimates; not_started due to failed migration must not disappear from feasibility reporting. Time-to-event analysis may treat unresolved attempts as censored when assumptions are justified.
 
 Do not use a composite score that allows security failures to be offset by faster completion. If gates fail, not accepted.
 
@@ -35,6 +37,6 @@ Study/protocol revision; run ID; project/upstream SHA; arm and frozen starting S
 
 ## Migration and economic analysis
 
-For arm a after n changes: cumulative cost C_a(n) = M_a + sum(E_a,i), where M includes all arm-specific migration, review, equivalence testing and failed attempts; E includes accepted-change work and rework. Keep cost units explicit. Compare observed cumulative workloads, not just average successful trials. Report break-even if achieved; otherwise report not observed, with assumptions for sensitivity projections. Separate time, compute and monetary analyses; avoid double counting. Shared baseline/oracle costs are reported separately.
+For arm a after n changes: cumulative cost C_a(n) = M_a + sum(E_a,i), where M includes all arm-specific migration, review, equivalence testing and failed attempts; E includes accepted-change work and rework. Keep cost units explicit. Compare observed cumulative workloads, not just average successful trials. Independent trial sums are scenario-mix projections, not observed longitudinal costs. A failed change incurs actual cost without delivering a goal; cumulative sequences stop or follow a predeclared recovery rule. Report cost and number of accepted goals together; do not claim break-even from cheaper failure or unequal delivered outcomes. Report break-even if achieved; otherwise report not observed, with assumptions for sensitivity projections. Separate time, compute and monetary analyses; avoid double counting. Shared baseline/oracle costs are reported separately.
 
 Tracking: #2 analysis freeze; #7 collection; #8 results.
