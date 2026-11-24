@@ -37,3 +37,31 @@ This is public-source desk screening, not source qualification. No builds, LOC c
 | Kill Bill | [Project FAQ](https://killbill.io/faqs) describes event-based module coordination; [payment guide](https://docs.killbill.io/latest/userguide_payment) describes provider plugin failure recovery. | Useful alternate or high-modularity comparison. Existing extensibility could make it unsuitable for the intended high-coupling cohort. |
 
 Next: resolve immutable source identities and notices; inspect representative workflows; measure structural properties with a documented tool and sampling rule; qualify a repeatable isolated local build. No candidate is admitted by this screening.
+
+## Shopizer: immutable-source prequalification (2026-11-24)
+
+Source branch 3.2.7 resolved through GitHub to [6a4a0a65a3408ee8f62597b51d1b3aac24b77dee](https://github.com/shopizer-ecommerce/shopizer/commit/6a4a0a65a3408ee8f62597b51d1b3aac24b77dee). All links below use that revision. This is a candidate source pin, not the experimental S0 or admission decision.
+
+### License and build inputs
+
+- [LICENSE.md](https://github.com/shopizer-ecommerce/shopizer/blob/6a4a0a65a3408ee8f62597b51d1b3aac24b77dee/LICENSE.md) and root POM declare Apache-2.0. Root NOTICE, NOTICE.txt and NOTICE.md were not found through the contents API; nested notices, copyright headers, dependency licenses and redistribution obligations remain to be inventoried. Do not redistribute source yet.
+- [Root POM](https://github.com/shopizer-ecommerce/shopizer/blob/6a4a0a65a3408ee8f62597b51d1b3aac24b77dee/pom.xml) declares five Maven modules: sm-core-model, sm-core-modules, sm-core, sm-shop-model and sm-shop; compiler target is Java 11.
+- [README](https://github.com/shopizer-ecommerce/shopizer/blob/6a4a0a65a3408ee8f62597b51d1b3aac24b77dee/README.md) mentions Java 11/17, while the [Maven wrapper properties](https://github.com/shopizer-ecommerce/shopizer/blob/6a4a0a65a3408ee8f62597b51d1b3aac24b77dee/.mvn/wrapper/maven-wrapper.properties) specify Maven 3.5.2. Compatibility, dependency resolution and build reproducibility require execution; do not infer a working toolchain.
+- [Core POM](https://github.com/shopizer-ecommerce/shopizer/blob/6a4a0a65a3408ee8f62597b51d1b3aac24b77dee/sm-core/pom.xml) declares JPA, H2/test dependencies, payment, shipping, search and AWS integrations. Dependency declaration is not evidence of active runtime use.
+
+### Representative workflow evidence
+
+| Source | Direct observation | Interpretation / next check |
+| --- | --- | --- |
+| [OrderServiceImpl lines 70–105](https://github.com/shopizer-ecommerce/shopizer/blob/6a4a0a65a3408ee8f62597b51d1b3aac24b77dee/sm-core/src/main/java/com/salesmanager/core/business/services/order/OrderServiceImpl.java#L70-L105) | 10 explicit collaborator fields (nine field-injected and one constructor-injected repository); generic persistence superclass | Scoped fan-out proxy, not a measured CBO score. Examine inherited dependencies. |
+| [OrderServiceImpl lines 127–213](https://github.com/shopizer-ecommerce/shopizer/blob/6a4a0a65a3408ee8f62597b51d1b3aac24b77dee/sm-core/src/main/java/com/salesmanager/core/business/services/order/OrderServiceImpl.java#L127-L213) | Single workflow coordinates context, payment, status history, customer/order persistence, transactions and inventory. | Natural testability and consistency pressure. Characterize actual behavior with synthetic fixtures before selecting invariants or diagnosing defects. |
+| [OrderServiceImpl lines 400–603](https://github.com/shopizer-ecommerce/shopizer/blob/6a4a0a65a3408ee8f62597b51d1b3aac24b77dee/sm-core/src/main/java/com/salesmanager/core/business/services/order/OrderServiceImpl.java#L400-L603) | Same class handles order/cart total calculation, cart updates, deletion, invoice generation, queries and capture-related listing. | Multiple responsibility groups; low cohesion remains a hypothesis until measured. |
+| [PaymentServiceImpl lines 53–80](https://github.com/shopizer-ecommerce/shopizer/blob/6a4a0a65a3408ee8f62597b51d1b3aac24b77dee/sm-core/src/main/java/com/salesmanager/core/business/services/payments/PaymentServiceImpl.java#L53-L80) | Seven collaborator fields including OrderService, transaction service and provider map. OrderServiceImpl references PaymentService. | Reciprocal service dependencies in source; verify binding graph and SCCs. Not proof of runtime initialization failure. |
+| [PaymentModule](https://github.com/shopizer-ecommerce/shopizer/blob/6a4a0a65a3408ee8f62597b51d1b3aac24b77dee/sm-core-modules/src/main/java/com/salesmanager/core/modules/integration/payment/model/PaymentModule.java) | Existing interface defines configuration validation, initialization, authorization, capture and refund using shared domain/configuration types. | Existing provider abstraction is an important baseline strength; do not count its introduction as a C-arm gain. |
+| [Integration composition](https://github.com/shopizer-ecommerce/shopizer/blob/6a4a0a65a3408ee8f62597b51d1b3aac24b77dee/sm-core/src/main/resources/spring/shopizer-core-modules.xml) | Payment/shipping provider maps and mail configuration, including several vendor implementations. | Inventory active versus dormant providers through wiring and isolated execution. |
+
+### Admission disposition
+
+Promising medium candidate with direct workflow evidence of substantial orchestration, responsibility concentration and reciprocal dependencies, despite existing modularity. Still unqualified. Initial source observations are not full structural measurements; no CBO, LCOM4, SCC, propagation-cost, production LOC or runtime regression result exists.
+
+Next required evidence: complete immutable source inventory (including notices), reproducible metric definitions and tool selection, structural measurements at class/module/workflow scope, isolated dependency resolution and build/test receipts, and independently reviewed baseline business contracts. No local execution or real provider access performed.
